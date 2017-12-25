@@ -1,0 +1,38 @@
+/* BeginDocumentation
+Name: hh_moto_booth_nestml - a motor neuron model in HH formalism.
+
+Description:
+
+ hh_moto_booth is an implementation of a spiking motor neuron using the Hodkin-Huxley
+ formalism according to the article by Booth V. Please see references.
+
+ Post-synaptic currents and Spike Detection are the same as in hh_psc_alpha
+
+References:
+
+ Muscle spindle feedback circuit
+ https://senselab.med.yale.edu/ModelDB/showmodel.cshtml?model=189786
+
+ Compartmental model of vertebrate motoneurons for Ca2+-dependent spiking and plateau potentials under pharmacological treatment.
+ Booth V1, Rinzel J, Kiehn O.
+
+Sends: SpikeEvent
+
+Receives: SpikeEvent, CurrentEvent
+
+Authors: Aleksei Sanin
+SeeAlso: hh_psc_alpha
+
+*/
+neuron hh_moto_booth:
+  parameters:
+    t_ref ms = 2.0ms         # Refractory period
+    g_Na nS = 5000.0nS       # Sodium peak conductance
+    g_L nS = 200nS           # Leak conductance
+    g_K_rect nS = 30000.0nS  # Delayed Rectifier Potassium peak conductance
+    g_Ca_N = 5000.0nS
+    g_Ca_L = 10.0nS
+    g_Ca_K = 30000.0nS
+  end
+
+end
