@@ -28,25 +28,29 @@ neuron hh_moto_booth:
   parameters:
     t_ref ms = 2.0ms         # Refractory period
     g_Na nS = 5000.0nS       # Sodium peak conductance
-    g_L nS = 200nS           # Leak conductance
+    g_L nS = 200.0nS         # Leak conductance
     g_K_rect nS = 30000.0nS  # Delayed Rectifier Potassium peak conductance
-    g_Ca_N = 5000.0nS
-    g_Ca_L = 10.0nS
-    g_Ca_K = 30000.0nS
-	Ca_out = 2 #outside Calcium concentration. TODO Molar/MilliMolar
-	C_m = 2µF/cm^2 # membrane capacitance.
+    g_Ca_N nS = 5000.0nS
+    g_Ca_L nS = 10.0nS
+    g_Ca_K nS = 30000.0nS
+	Ca_out mmol = 2.0mmol    # Outside Calcium concentration
+	C_m = 200.0pF            # Membrane capacitance
 	e_Na = 50.0mV
 	e_K = -80.0mV
 	e_L	= -70.0mV
 
-	amA = 0.4
-	amB = 66
-	amC = 5
-	bmA = 0.4
-	bmB = 32
-	bmC = 5
-	R=8.314472
-	F=96485.34
+	# Sodium rate constants
+	amA 1/ms = 0.4
+	amB 1/ms = 66.0
+	amC 1/ms = 5.0
+	bmA 1/ms = 0.4
+	bmB 1/ms = 32.0
+	bmC 1/ms = 5.0
+
+	# Nernst equation constants
+	R_const (kg*m**2)/(s**2*K*mol) = 8.314472  # Gas constant
+	F_const C/mol = 96485.34[C/mol]            # Faraday constant
+	T_current K = 309.15K                      # 36 Celcius
   end
 
 end
