@@ -82,4 +82,32 @@ neuron hh_moto_booth:
 
   end
 
+  function sodium_h_tau(V_m mV) real:
+	return 30 / (Exp((V_m + 60)/15) + Exp(-(V_m + 60)/16))
+  end
+
+  function sodium_h_inf(V_m mV) real:
+	return 1 / (1 + Exp((v + 65)/7))
+  end
+
+  function sodium_m_tau(V_m mV) real:
+	real a = sodium_m_alpha(V_m)
+	real b = sodium_m_beta(V_m)
+	return 1 / (a + b)
+  end
+
+  function sodium_m_inf(V_m mV) real:
+	real a = sodium_m_alpha(V_m)
+	real b = sodium_m_beta(V_m)
+	return a / (a + b)
+  end
+
+  function sodium_m_alpha(V_m mV) real:
+	return (amA*(V_m + amB)) / (1 - Exp(-(V_m + amB)/amC))
+  end
+
+  function sodium_m_beta(V_m mV) real:
+	return = (bmA*(-(V_m + bmB))) / (1 - Exp((V_m + bmB)/bmC))
+  end
+
 end
