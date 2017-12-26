@@ -25,6 +25,10 @@ SeeAlso: hh_psc_alpha
 
 */
 neuron hh_moto_booth:
+  state:
+    r integer # number of steps in the current refractory phase
+  end
+
   parameters:
     t_ref ms = 2.0ms         # Refractory period
     g_Na nS = 5000.0nS       # Sodium peak conductance
@@ -51,6 +55,31 @@ neuron hh_moto_booth:
 	R_const (kg*m**2)/(s**2*K*mol) = 8.314472  # Gas constant
 	F_const C/mol = 96485.34[C/mol]            # Faraday constant
 	T_current K = 309.15K                      # 36 Celcius
+  end
+
+  internals:
+    RefractoryCounts integer = steps(t_ref) # refractory time in steps
+  end
+
+  input:
+      spikeInh pA <- inhibitory spike
+      spikeExc pA <- excitatory spike
+      currents <- current
+  end
+
+  output: spike
+
+  update:
+    U_old mV = V_m
+    integrate_odes()
+    # sending spikes: crossing 0 mV, pseudo-refractoriness and local maximum...
+    if r > 0: # is refractory?
+      r -= 1
+    elif V_m > 0 mV and U_old > V_m: # threshold && maximum
+      r = RefractoryCounts
+      emit_spike()
+    end
+
   end
 
 end
