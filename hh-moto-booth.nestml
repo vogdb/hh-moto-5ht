@@ -34,6 +34,7 @@ neuron hh_moto_booth:
     Act_p real = calcium_p_inf(V_m)     # Calcium activation variable 'p'
     Act_mc real = calcium_mc_inf(V_m)   # Calcium activation variable 'mc'
     Act_hc real = calcium_hc_inf(V_m)   # Calcium activation variable 'hc'
+	e_Ca real = ((1000 * R_const * T_current)/(2 * F_const))*log(Ca_out/Ca_in)
 
     r integer # number of steps in the current refractory phase
   end
@@ -46,9 +47,8 @@ neuron hh_moto_booth:
     function I_syn_inh pA = curr_sum(I_syn_in, spikeInh)
 
     # TODO check that `log` is the same as in Neuron
-	e_Ca = ((1000 * R_const * T_current)/(2 * F_const))*log(Ca_out/Ca_in)
     function I_Na  pA = g_Na * Act_m * Act_m * Act_m * Act_h * ( V_m - e_Na )
-    function I_K   pA  = g_K * Inact_n * Inact_n * Inact_n * Inact_n * ( V_m - e_K )
+    function I_K   pA  = g_K_rect * Inact_n * Inact_n * Inact_n * Inact_n * ( V_m - e_K )
     function I_L   pA = g_L * ( V_m - e_L )
 	function I_CaN pA = g_Ca_N *  Act_mc * Act_mc * Act_hc * (V_m - e_Ca)
 	function I_CaL pA = g_Ca_L * Act_p * (V_m - e_Ca)
@@ -81,23 +81,19 @@ neuron hh_moto_booth:
 	Ca_out mmol = 2.0mmol    # Outside Calcium concentration
 	Ca_in mmol = 0.0001mmol  # Inside Calcium concentration
 
-	C_m = 200.0pF            # Membrane capacitance
-	e_Na = 50.0mV
-	e_K = -80.0mV
-	e_L	= -70.0mV
-
-	# Sodium rate constants
-	amA 1/ms = 0.4
-	amB 1/ms = 66.0
-	amC 1/ms = 5.0
-	bmA 1/ms = 0.4
-	bmB 1/ms = 32.0
-	bmC 1/ms = 5.0
+	C_m pF = 200.0pF         # Membrane capacitance
+	e_Na mV = 50.0mV
+	e_K mV = -80.0mV
+	e_L	mV = -70.0mV
 
 	# Nernst equation constants
 	R_const (kg*m**2)/(s**2*K*mol) = 8.314472  # Gas constant
-	F_const C/mol = 96485.34[C/mol]            # Faraday constant
+	F_const C/mol = 96485.34                   # Faraday constant
 	T_current K = 309.15K                      # 36 Celcius
+
+    tau_syn_ex ms = 0.2ms  # Rise time of the excitatory synaptic alpha function i
+    tau_syn_in ms = 2.0ms  # Rise time of the inhibitory synaptic alpha function
+    I_e pA = 0pA           # Constant Current in pA
   end
 
   internals:
@@ -162,27 +158,23 @@ neuron hh_moto_booth:
   end
 
   function sodium_h_inf(V_m mV) real:
-	return 1 / (1 + exp((v + 65)/7))
+	return 1 / (1 + exp((V_m + 65)/7))
   end
 
   function sodium_m_tau(V_m mV) real:
-	real a = sodium_m_alpha(V_m)
-	real b = sodium_m_beta(V_m)
-	return 1 / (a + b)
+	return 1 / (sodium_m_alpha(V_m) + sodium_m_beta(V_m))
   end
 
   function sodium_m_inf(V_m mV) real:
-	real a = sodium_m_alpha(V_m)
-	real b = sodium_m_beta(V_m)
-	return a / (a + b)
+	return sodium_m_alpha(V_m) / (sodium_m_alpha(V_m) + sodium_m_beta(V_m))
   end
 
   function sodium_m_alpha(V_m mV) real:
-	return (amA*(V_m + amB)) / (1 - exp(-(V_m + amB)/amC))
+	return (0.4*(V_m + 66.0)) / (1 - exp(-(V_m + 66.0)/5.0))
   end
 
   function sodium_m_beta(V_m mV) real:
-	return = (bmA*(-(V_m + bmB))) / (1 - exp((V_m + bmB)/bmC))
+	return (0.4*(-(V_m + 32.0))) / (1 - exp((V_m + 32.0)/5.0))
   end
 
 end
