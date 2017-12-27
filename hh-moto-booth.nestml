@@ -82,12 +82,44 @@ neuron hh_moto_booth:
 
   end
 
+  function calcium_mc_inf(V_m mV) real:
+	return 1/(1 + exp(-(V_m + 32)/5))
+  end
+
+  function calcium_mc_tau() real:
+	return 15.0
+  end
+
+  function calcium_hc_inf(V_m mV) real:
+	return 1/(1 + exp((V_m + 50)/5))
+  end
+
+  function calcium_hc_tau() real:
+	return 50.0
+  end
+
+  function leakage_p_tau() real:
+	return 400.0
+  end
+
+  function leakage_p_inf(V_m mV) real:
+	return 1/(1 + exp(-(V_m + 55.8)/3.7))
+  end
+
+  function potassium_n_tau(V_m mV) real:
+	return 5 / (exp((V_m + 50)/40) + exp(-(V_m + 50)/50))
+  end
+
+  function potassium_n_inf(V_m mV) real:
+	return 1 / (1 + exp(-(V_m + 38)/15))
+  end
+
   function sodium_h_tau(V_m mV) real:
-	return 30 / (Exp((V_m + 60)/15) + Exp(-(V_m + 60)/16))
+	return 30 / (exp((V_m + 60)/15) + exp(-(V_m + 60)/16))
   end
 
   function sodium_h_inf(V_m mV) real:
-	return 1 / (1 + Exp((v + 65)/7))
+	return 1 / (1 + exp((v + 65)/7))
   end
 
   function sodium_m_tau(V_m mV) real:
@@ -103,11 +135,11 @@ neuron hh_moto_booth:
   end
 
   function sodium_m_alpha(V_m mV) real:
-	return (amA*(V_m + amB)) / (1 - Exp(-(V_m + amB)/amC))
+	return (amA*(V_m + amB)) / (1 - exp(-(V_m + amB)/amC))
   end
 
   function sodium_m_beta(V_m mV) real:
-	return = (bmA*(-(V_m + bmB))) / (1 - Exp((V_m + bmB)/bmC))
+	return = (bmA*(-(V_m + bmB))) / (1 - exp((V_m + bmB)/bmC))
   end
 
 end
