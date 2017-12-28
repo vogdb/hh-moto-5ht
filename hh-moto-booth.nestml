@@ -28,13 +28,25 @@ neuron hh_moto_booth:
   state:
     V_m mV = -65. mV # Membrane potential
 
-    Act_m real = sodium_m_inf(V_m)      # Sodium activation variable 'm'
-    Act_h real = sodium_h_inf(V_m)      # Sodium activation variable 'h'
+    function alpha_m_init real = (0.4 * (V_m + 66)) / (1 - exp(-(V_m + 66)/5))
+    function beta_m_init real = (0.4 * (-(V_m + 32))) / (1 - exp((V_m + 32)/5))
+    Act_m real =  alpha_m_init / ( alpha_m_init + beta_m_init )
+
+    function h_inf_init real = 1 / (1 + exp((V_m + 65)/7))
+    # function h_tau_init real = 30 / (exp((V_m + 60)/15) + exp(-(V_m + 60)/16))
+    Act_h real = h_inf_init
+
+    function n_inf_init real = 1 / (1 + exp(-(V_m + 38)/15))
+    # function n_tau_init real = 5 / (exp((V_m + 50)/40) + exp(-(V_m + 50)/50))
+
+    # Act_m real = sodium_m_inf(V_m)      # Sodium activation variable 'm'
+    # Act_h real = sodium_h_inf(V_m)      # Sodium activation variable 'h'
     Inact_n real = potassium_n_inf(V_m) # Potassium inactivation variable 'n'
     Act_p real = calcium_p_inf(V_m)     # Calcium activation variable 'p'
     Act_mc real = calcium_mc_inf(V_m)   # Calcium activation variable 'mc'
     Act_hc real = calcium_hc_inf(V_m)   # Calcium activation variable 'hc'
 	e_Ca real = ((1000 * R_const * T_current)/(2 * F_const))*log(Ca_out/Ca_in)
+
 
     r integer # number of steps in the current refractory phase
   end
