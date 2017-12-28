@@ -2,6 +2,8 @@ from neuron import h
 from neuron import gui  # VERY IMPORTANT to include 'gui'! Despite the fact that it is unused.
 from matplotlib import pyplot
 
+RUN_TIME = 25.0
+
 
 def create_soma():
     soma = h.Section(name='soma')
@@ -27,7 +29,7 @@ def run_sim(soma):
     v_vec.record(soma(0)._ref_v)
     t_vec.record(h._ref_t)
 
-    duration = 25.0
+    duration = RUN_TIME
     h.tstop = duration
     h.run()
 
