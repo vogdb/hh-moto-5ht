@@ -1,0 +1,66 @@
+-----------------Execution summary------------------------
+[ {
+  "filename" : "hh-moto-booth.nestml",
+  "neuronName" : "hh_moto_booth",
+  "severity" : "WARNING",
+  "code" : "NESTML_POST_PROCESSING_ERROR",
+  "row" : 75,
+  "col" : 1,
+  "message" : "The type of (derived) variable Inact_n' is: 1 / ms. This does not match Type of RHS expression: real"
+}, {
+  "filename" : "hh-moto-booth.nestml",
+  "neuronName" : "hh_moto_booth",
+  "severity" : "WARNING",
+  "code" : "NESTML_POST_PROCESSING_ERROR",
+  "row" : 79,
+  "col" : 1,
+  "message" : "The type of (derived) variable Act_m' is: 1 / ms. This does not match Type of RHS expression: real"
+}, {
+  "filename" : "hh-moto-booth.nestml",
+  "neuronName" : "hh_moto_booth",
+  "severity" : "WARNING",
+  "code" : "NESTML_POST_PROCESSING_ERROR",
+  "row" : 83,
+  "col" : 1,
+  "message" : "The type of (derived) variable Act_h' is: 1 / ms. This does not match Type of RHS expression: real"
+}, {
+  "filename" : "hh-moto-booth.nestml",
+  "neuronName" : "hh_moto_booth",
+  "severity" : "WARNING",
+  "code" : "NESTML_POST_PROCESSING_ERROR",
+  "row" : 87,
+  "col" : 1,
+  "message" : "The type of (derived) variable Act_p' is: 1 / ms. This does not match Type of RHS expression: real"
+}, {
+  "filename" : "hh-moto-booth.nestml",
+  "neuronName" : "hh_moto_booth",
+  "severity" : "WARNING",
+  "code" : "NESTML_POST_PROCESSING_ERROR",
+  "row" : 91,
+  "col" : 1,
+  "message" : "The type of (derived) variable Act_mc' is: 1 / ms. This does not match Type of RHS expression: real"
+}, {
+  "filename" : "hh-moto-booth.nestml",
+  "neuronName" : "hh_moto_booth",
+  "severity" : "WARNING",
+  "code" : "NESTML_POST_PROCESSING_ERROR",
+  "row" : 95,
+  "col" : 1,
+  "message" : "The type of (derived) variable Act_hc' is: 1 / ms. This does not match Type of RHS expression: real"
+}, {
+  "filename" : "hh-moto-booth.nestml",
+  "neuronName" : "hh_moto_booth",
+  "severity" : "WARNING",
+  "code" : "NESTML_POST_PROCESSING_ERROR",
+  "row" : 97,
+  "col" : 1,
+  "message" : "The type of (derived) variable Ca_in' is: kat. This does not match Type of RHS expression: real"
+}, {
+  "filename" : "hh-moto-booth.nestml",
+  "neuronName" : "hh_moto_booth",
+  "severity" : "ERROR",
+  "code" : "NESTML_EQUATIONS_ONLY_FOR_STATE_VARIABLES",
+  "row" : 97,
+  "col" : 1,
+  "message" : "The variable 'Ca_in' is not a state variable and, therefore, cannot be used on the left side of an equation."
+} ]
