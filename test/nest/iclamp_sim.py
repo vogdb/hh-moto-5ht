@@ -1,9 +1,11 @@
 import nest
-
 import util
 
+
+nest.Install("research_team_models")
+
 neuron = nest.Create(
-    'hh_psc_alpha', params={"I_e": 378.0}
+    'hh_moto_5ht', params={"I_e": 378.0}
 )
 multimeter = nest.Create(
     'multimeter',

@@ -1,9 +1,9 @@
 /* BeginDocumentation
-Name: hh_moto_booth_nestml - a motor neuron model in HH formalism.
+Name: hh_moto_5ht - a motor neuron model in HH formalism.
 
 Description:
 
- hh_moto_booth is an implementation of a spiking motor neuron using the Hodkin-Huxley
+ hh_moto_5ht is an implementation of a spiking motor neuron using the Hodkin-Huxley
  formalism according to the article by Booth V. Please see references.
 
  Post-synaptic currents and Spike Detection are the same as in hh_psc_alpha
@@ -24,7 +24,7 @@ Authors: Aleksei Sanin
 SeeAlso: hh_psc_alpha
 
 */
-neuron hh_moto_booth:
+neuron hh_moto_5ht:
   state:
     V_m mV = -65. mV # Membrane potential
 	Ca_in mmol = 0.0001mmol  # Inside Calcium concentration
