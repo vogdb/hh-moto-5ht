@@ -6,7 +6,7 @@ This project aims to implement a Nest model of Motor neuron from an existing [Ne
 The below instructions are given for the **project's root.**
 To build the model for Nest:
 ```
-java -jar <path to nestml 'target' dir>nestml.jar hh-moto-5ht --target build
+java -jar <path to nestml 'target' dir>nestml.jar hh_moto_5ht --target build
 ```
 
 To install the built in Nest:
