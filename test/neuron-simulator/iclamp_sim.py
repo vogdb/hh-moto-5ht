@@ -1,4 +1,5 @@
 from neuron import h
+
 import util
 
 soma = util.create_soma()

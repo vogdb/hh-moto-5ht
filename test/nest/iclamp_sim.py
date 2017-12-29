@@ -1,4 +1,5 @@
 import nest
+
 import util
 
 neuron = nest.Create(
