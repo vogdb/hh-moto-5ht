@@ -27,6 +27,7 @@ SeeAlso: hh_psc_alpha
 neuron hh_moto_booth:
   state:
     V_m mV = -65. mV # Membrane potential
+	Ca_in mmol = 0.0001mmol  # Inside Calcium concentration
 
     function alpha_m_init real = (0.4 * (V_m + 66)) / (1 - exp(-(V_m + 66)/5))
     function beta_m_init real = (0.4 * (-(V_m + 32))) / (1 - exp((V_m + 32)/5))
@@ -88,7 +89,7 @@ neuron hh_moto_booth:
 
     function mc_inf real = 1/(1 + exp(-(V_m + 32)/5))
     function mc_tau real = 15.0
-	Act_mc' = (mc_inf - Act_mc) / mc_tau(V_m)
+	Act_mc' = (mc_inf - Act_mc) / mc_tau
 
     function hc_inf real = 1/(1 + exp((V_m + 50)/5))
     function hc_tau real = 50.0
@@ -109,7 +110,6 @@ neuron hh_moto_booth:
     g_Ca_K nS = 30000.0nS
 
 	Ca_out mmol = 2.0mmol    # Outside Calcium concentration
-	Ca_in mmol = 0.0001mmol  # Inside Calcium concentration
 
 	C_m pF = 200.0pF         # Membrane capacitance
 	e_Na mV = 50.0mV
@@ -131,8 +131,8 @@ neuron hh_moto_booth:
   end
 
   input:
-      spikeInh pA <- inhibitory spike
-      spikeExc pA <- excitatory spike
+      spikeInh <- inhibitory spike
+      spikeExc <- excitatory spike
       currents <- current
   end
 
