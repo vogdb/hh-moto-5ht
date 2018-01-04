@@ -66,7 +66,7 @@ neuron hh_moto_5ht:
     function I_L   pA = g_L * ( V_m - e_L )
 	function I_CaN pA = g_Ca_N *  Act_mc * Act_mc * Act_hc * (V_m - e_Ca)
 	function I_CaL pA = g_Ca_L * Act_p * (V_m - e_Ca)
-	function I_CaK pA = 0.6 * g_Ca_K * (Ca_in * Ca_in)/(Ca_in * Ca_in + 0.014 * 0.014)*(V_m - e_K)
+	function I_CaK pA = 0.6 * g_Ca_K * ((Ca_in * Ca_in)/(Ca_in * Ca_in + 0.014 * 0.014))*(V_m - e_K)
 
     V_m' =( -( I_Na + I_K + I_L + I_CaN + I_CaL + I_CaK ) + currents + I_e + I_syn_inh + I_syn_exc ) / C_m
 
