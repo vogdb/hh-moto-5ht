@@ -1,5 +1,6 @@
 from neuron import h
 from neuron import gui  # VERY IMPORTANT to include 'gui'! Despite the fact that it is unused.
+import numpy
 from matplotlib import pyplot
 
 RUN_TIME = 150.0
@@ -7,7 +8,9 @@ RUN_TIME = 150.0
 
 def create_soma():
     soma = h.Section(name='soma')
-    soma.L = soma.diam = 12.6157  # microns
+    soma.L = 200.
+    soma.diam = 50. / numpy.pi
+    soma.nseg = 1
     h.define_shape()  # Translate into 3D points.
     soma.Ra = 200  # Axial resistance in Ohm * cm
     soma.cm = 2  # Membrane capacitance in micro Farads / cm^2

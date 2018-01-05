@@ -5,11 +5,15 @@ import util
 nest.Install("research_team_models")
 
 neuron = nest.Create(
-    'hh_moto_5ht', params={"I_e": 378.0}
+    'hh_moto_5ht', params={
+        "I_e": 670.0, #pA
+        "C_m": 200.0, #pF
+        "t_ref": 0.0,
+    }
 )
 multimeter = nest.Create(
     'multimeter',
-    params={"record_from": ["V_m", "I_syn_ex", "I_syn_in"], "withtime": True}
+    params={"record_from": ["V_m"], "withtime": True}
 )
 
 nest.Connect(multimeter, neuron)

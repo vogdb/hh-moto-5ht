@@ -29,23 +29,23 @@ neuron hh_moto_5ht:
     V_m mV = -65. mV # Membrane potential
 	Ca_in mmol = 0.0001mmol  # Inside Calcium concentration
 
-    function alpha_m_init real = (0.4 * (V_m + 66)) / (1 - exp(-(V_m + 66)/5))
-    function beta_m_init real = (0.4 * (-(V_m + 32))) / (1 - exp((V_m + 32)/5))
+    function alpha_m_init real = (0.4 * (V_m + 66.)) / (1. - exp(-(V_m + 66.)/5.))
+    function beta_m_init real = (0.4 * (-(V_m + 32.))) / (1. - exp((V_m + 32.)/5.))
     Act_m real =  alpha_m_init / ( alpha_m_init + beta_m_init )
 
-    function h_inf_init real = 1 / (1 + exp((V_m + 65)/7))
+    function h_inf_init real = 1. / (1. + exp((V_m + 65.)/7.))
     Act_h real = h_inf_init
 
-    function n_inf_init real = 1 / (1 + exp(-(V_m + 38)/15))
+    function n_inf_init real = 1. / (1. + exp(-(V_m + 38.)/15.))
     Inact_n real = n_inf_init
 
-    function p_inf_init real = 1/(1 + exp(-(V_m + 55.8)/3.7))
+    function p_inf_init real = 1. / (1. + exp(-(V_m + 55.8)/3.7))
     Act_p real = p_inf_init
 
-    function mc_inf_init real = 1/(1 + exp(-(V_m + 32)/5))
+    function mc_inf_init real = 1. / (1. + exp(-(V_m + 32.)/5.))
     Act_mc real = mc_inf_init
 
-    function hc_inf_init real = 1/(1 + exp((V_m + 50)/5))
+    function hc_inf_init real = 1. / (1. + exp((V_m + 50.)/5.))
     Act_hc real = hc_inf_init
 
     r integer # number of steps in the current refractory phase
@@ -58,7 +58,7 @@ neuron hh_moto_5ht:
     function I_syn_exc pA = curr_sum(I_syn_ex, spikeExc)
     function I_syn_inh pA = curr_sum(I_syn_in, spikeInh)
 
-	function e_Ca mV = ((1000 * R_const * T_current)/(2 * F_const))*log(Ca_out/Ca_in)
+	function e_Ca mV = ((1000. * R_const * T_current)/(2. * F_const))*log(Ca_out/Ca_in)
 
     # TODO check that `log` is the same as in Neuron
     function I_Na  pA = g_Na * Act_m * Act_m * Act_m * Act_h * ( V_m - e_Na )
@@ -66,36 +66,36 @@ neuron hh_moto_5ht:
     function I_L   pA = g_L * ( V_m - e_L )
 	function I_CaN pA = g_Ca_N *  Act_mc * Act_mc * Act_hc * (V_m - e_Ca)
 	function I_CaL pA = g_Ca_L * Act_p * (V_m - e_Ca)
-	function I_CaK pA = 0.6 * g_Ca_K * (Ca_in * Ca_in)/(Ca_in * Ca_in + 0.014 * 0.014)*(V_m - e_K)
+	function I_CaK pA = 0.6 * g_Ca_K * ((Ca_in * Ca_in)/(Ca_in * Ca_in + 0.014 * 0.014))*(V_m - e_K)
 
     V_m' =( -( I_Na + I_K + I_L + I_CaN + I_CaL + I_CaK ) + currents + I_e + I_syn_inh + I_syn_exc ) / C_m
 
 
-    function n_inf real = 1 / (1 + exp(-(V_m + 38)/15))
-    function n_tau real = 5 / (exp((V_m + 50)/40) + exp(-(V_m + 50)/50))
+    function n_inf real = 1. / (1. + exp(-(V_m + 38.)/15.))
+    function n_tau real = 5. / (exp((V_m + 50.)/40.) + exp(-(V_m + 50.)/50.))
 	Inact_n' = (n_inf - Inact_n) / n_tau
 
-    function alpha_m real = (0.4 * (V_m + 66)) / (1 - exp(-(V_m + 66)/5))
-    function beta_m real = (0.4 * (-(V_m + 32))) / (1 - exp((V_m + 32)/5))
-	Act_m' = alpha_m * (1 - Act_m) - beta_m * Act_m
+    function alpha_m real = (0.4 * (V_m + 66.)) / (1. - exp(-(V_m + 66.)/5.))
+    function beta_m real = (0.4 * (-(V_m + 32.))) / (1. - exp((V_m + 32.)/5.))
+	Act_m' = alpha_m * (1. - Act_m) - beta_m * Act_m
 
-    function h_inf real = 1 / (1 + exp((V_m + 65)/7))
-    function h_tau real = 30 / (exp((V_m + 60)/15) + exp(-(V_m + 60)/16))
+    function h_inf real = 1. / (1. + exp((V_m + 65.)/7.))
+    function h_tau real = 30. / (exp((V_m + 60.)/15.) + exp(-(V_m + 60.)/16.))
 	Act_h' = (h_inf - Act_h) / h_tau
 
-    function p_inf real = 1/(1 + exp(-(V_m + 55.8)/3.7))
+    function p_inf real = 1. / (1. + exp(-(V_m + 55.8)/3.7))
     function p_tau real = 400.0
-	Act_p' = (p_inf - Act_h) / p_tau
+	Act_p' = (p_inf - Act_p) / p_tau
 
-    function mc_inf real = 1/(1 + exp(-(V_m + 32)/5))
+    function mc_inf real = 1. / (1. + exp(-(V_m + 32.)/5.))
     function mc_tau real = 15.0
 	Act_mc' = (mc_inf - Act_mc) / mc_tau
 
-    function hc_inf real = 1/(1 + exp((V_m + 50)/5))
+    function hc_inf real = 1. / (1. + exp((V_m + 50.)/5.))
     function hc_tau real = 50.0
 	Act_hc' = (hc_inf - Act_hc) / hc_tau
 
-	Ca_in'= 0.01 * (-(I_CaN + I_CaN) - 4*Ca_in)
+	Ca_in'= 0.01 * (-(I_CaN + I_CaL) - 4.*Ca_in)
 
   end
 
