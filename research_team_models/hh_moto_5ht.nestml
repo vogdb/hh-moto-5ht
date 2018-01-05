@@ -1,5 +1,5 @@
 /* BeginDocumentation
-Name: hh_moto_5ht - a motor neuron model in HH formalism.
+Name: hh_moto_5ht_nestml - a motor neuron model in HH formalism.
 
 Description:
 
@@ -26,6 +26,10 @@ SeeAlso: hh_psc_alpha
 */
 neuron hh_moto_5ht:
   state:
+    r integer # number of steps in the current refractory phase
+  end
+
+  initial_values:
     V_m mV = -65. mV # Membrane potential
 	Ca_in mmol = 0.0001mmol  # Inside Calcium concentration
 
@@ -47,16 +51,14 @@ neuron hh_moto_5ht:
 
     function hc_inf_init real = 1. / (1. + exp((V_m + 50.)/5.))
     Act_hc real = hc_inf_init
-
-    r integer # number of steps in the current refractory phase
   end
 
   equations:
     # synapses: alpha functions
     shape I_syn_in = (e/tau_syn_in) * t * exp(-t/tau_syn_in)
     shape I_syn_ex = (e/tau_syn_ex) * t * exp(-t/tau_syn_ex)
-    function I_syn_exc pA = curr_sum(I_syn_ex, spikeExc)
-    function I_syn_inh pA = curr_sum(I_syn_in, spikeInh)
+    function I_syn_exc pA = convolve(I_syn_ex, spikeExc)
+    function I_syn_inh pA = convolve(I_syn_in, spikeInh)
 
 	function e_Ca mV = ((1000. * R_const * T_current)/(2. * F_const))*log(Ca_out/Ca_in)
 
@@ -131,8 +133,8 @@ neuron hh_moto_5ht:
   end
 
   input:
-      spikeInh <- inhibitory spike
-      spikeExc <- excitatory spike
+      spikeInh pA <- inhibitory spike
+      spikeExc pA <- excitatory spike
       currents <- current
   end
 
