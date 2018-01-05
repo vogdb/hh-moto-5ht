@@ -60,14 +60,14 @@ neuron hh_moto_5ht:
     function I_syn_exc pA = convolve(I_syn_ex, spikeExc)
     function I_syn_inh pA = convolve(I_syn_in, spikeInh)
 
-	function e_Ca mV = ((1000. * R_const * T_current)/(2. * F_const))*log(Ca_out/Ca_in)
+	function E_Ca mV = ((1000. * R_const * T_current)/(2. * F_const))*log(Ca_out/Ca_in)
 
-    function I_Na  pA = g_Na * Act_m * Act_m * Act_m * Act_h * ( V_m - e_Na )
-    function I_K   pA  = g_K_rect * Inact_n * Inact_n * Inact_n * Inact_n * ( V_m - e_K )
-    function I_L   pA = g_L * ( V_m - e_L )
-	function I_CaN pA = g_Ca_N *  Act_mc * Act_mc * Act_hc * (V_m - e_Ca)
-	function I_CaL pA = g_Ca_L * Act_p * (V_m - e_Ca)
-	function I_CaK pA = 0.6 * g_Ca_K * ((Ca_in * Ca_in)/(Ca_in * Ca_in + 0.014 * 0.014))*(V_m - e_K)
+    function I_Na  pA = g_Na * Act_m * Act_m * Act_m * Act_h * ( V_m - E_Na )
+    function I_K   pA  = g_K_rect * Inact_n * Inact_n * Inact_n * Inact_n * ( V_m - E_K )
+    function I_L   pA = g_L * ( V_m - E_L )
+	function I_CaN pA = g_Ca_N *  Act_mc * Act_mc * Act_hc * (V_m - E_Ca)
+	function I_CaL pA = g_Ca_L * Act_p * (V_m - E_Ca)
+	function I_CaK pA = 0.6 * g_Ca_K * ((Ca_in * Ca_in)/(Ca_in * Ca_in + 0.014 * 0.014))*(V_m - E_K)
 
     V_m' =( -( I_Na + I_K + I_L + I_CaN + I_CaL + I_CaK ) + currents + I_e + I_syn_inh + I_syn_exc ) / C_m
 
@@ -113,9 +113,9 @@ neuron hh_moto_5ht:
 	Ca_out mmol = 2.0mmol    # Outside Calcium concentration
 
 	C_m pF = 200.0pF         # Membrane capacitance
-	e_Na mV = 50.0mV
-	e_K mV = -80.0mV
-	e_L	mV = -70.0mV
+	E_Na mV = 50.0mV
+	E_K mV = -80.0mV
+	E_L	mV = -70.0mV
 
 	# Nernst equation constants
 	R_const (kg*m**2)/(s**2*K*mol) = 8.314472  # Gas constant
