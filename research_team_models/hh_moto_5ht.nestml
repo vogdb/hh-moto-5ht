@@ -33,8 +33,8 @@ neuron hh_moto_5ht:
     V_m mV = -65. mV # Membrane potential
 	Ca_in mmol = 0.0001mmol  # Inside Calcium concentration
 
-    function alpha_m_init real = (0.4 * (V_m + 66.)) / (1. - exp(-(V_m + 66.)/5.))
-    function beta_m_init real = (0.4 * (-(V_m + 32.))) / (1. - exp((V_m + 32.)/5.))
+    function alpha_m_init 1/ms = (0.4 * (V_m + 66.)) / (1. - exp(-(V_m + 66.)/5.))/ms
+    function beta_m_init 1/ms = (0.4 * (-(V_m + 32.))) / (1. - exp((V_m + 32.)/5.))/ms
     Act_m real =  alpha_m_init / ( alpha_m_init + beta_m_init )
 
     function h_inf_init real = 1. / (1. + exp((V_m + 65.)/7.))
@@ -60,7 +60,7 @@ neuron hh_moto_5ht:
     function I_syn_exc pA = convolve(I_syn_ex, spikeExc)
     function I_syn_inh pA = convolve(I_syn_in, spikeInh)
 
-	function E_Ca mV = ((1000. * R_const * T_current)/(2. * F_const))*log(Ca_out/Ca_in)
+	function E_Ca mV = ((0.001 * R_const * T_current)/(2. * F_const))*log(Ca_out/Ca_in)
 
     function I_Na  pA = g_Na * Act_m * Act_m * Act_m * Act_h * ( V_m - E_Na )
     function I_K   pA  = g_K_rect * Inact_n * Inact_n * Inact_n * Inact_n * ( V_m - E_K )
@@ -73,27 +73,27 @@ neuron hh_moto_5ht:
 
 
     function n_inf real = 1. / (1. + exp(-(V_m + 38.)/15.))
-    function n_tau real = 5. / (exp((V_m + 50.)/40.) + exp(-(V_m + 50.)/50.))
+    function n_tau ms = (5. * ms) / (exp((V_m + 50.)/40.) + exp(-(V_m + 50.)/50.))
 	Inact_n' = (n_inf - Inact_n) / n_tau
 
-    function alpha_m real = (0.4 * (V_m + 66.)) / (1. - exp(-(V_m + 66.)/5.))
-    function beta_m real = (0.4 * (-(V_m + 32.))) / (1. - exp((V_m + 32.)/5.))
+    function alpha_m 1/ms = (0.4 * (V_m + 66.)) / (1. - exp(-(V_m + 66.)/5.))/ms
+    function beta_m 1/ms = (0.4 * (-(V_m + 32.))) / (1. - exp((V_m + 32.)/5.))/ms
 	Act_m' = alpha_m * (1. - Act_m) - beta_m * Act_m
 
     function h_inf real = 1. / (1. + exp((V_m + 65.)/7.))
-    function h_tau real = 30. / (exp((V_m + 60.)/15.) + exp(-(V_m + 60.)/16.))
+    function h_tau ms = (30. * ms) / (exp((V_m + 60.)/15.) + exp(-(V_m + 60.)/16.))
 	Act_h' = (h_inf - Act_h) / h_tau
 
     function p_inf real = 1. / (1. + exp(-(V_m + 55.8)/3.7))
-    function p_tau real = 400.0
+    function p_tau ms = 400.0ms
 	Act_p' = (p_inf - Act_p) / p_tau
 
     function mc_inf real = 1. / (1. + exp(-(V_m + 32.)/5.))
-    function mc_tau real = 15.0
+    function mc_tau ms = 15.0ms
 	Act_mc' = (mc_inf - Act_mc) / mc_tau
 
     function hc_inf real = 1. / (1. + exp((V_m + 50.)/5.))
-    function hc_tau real = 50.0
+    function hc_tau ms = 50.0ms
 	Act_hc' = (hc_inf - Act_hc) / hc_tau
 
 	Ca_in'= 0.01 * (-(I_CaN + I_CaL) - 4.*Ca_in)
@@ -118,9 +118,9 @@ neuron hh_moto_5ht:
 	E_L	mV = -70.0mV
 
 	# Nernst equation constants
-	R_const (kg*m**2)/(s**2*K*mol) = 8.314472  # Gas constant
-	F_const C/mol = 96485.34                   # Faraday constant
-	T_current K = 309.15K                      # 36 Celcius
+	R_const (kg*m**2)/(s**2*K*mol) = 8.314472 * (kg*m**2)/(s**2*K*mol)
+	F_const C/mol = 96485.34 * (C/mol)
+	T_current K = 309.15K # 36 Celcius
 
     tau_syn_ex ms = 0.2ms  # Rise time of the excitatory synaptic alpha function i
     tau_syn_in ms = 2.0ms  # Rise time of the inhibitory synaptic alpha function
