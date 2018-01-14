@@ -31,7 +31,7 @@ neuron hh_moto_5ht:
 
   initial_values:
     V_m mV = -65. mV # Membrane potential
-	Ca_in mmol = 0.0001mmol  # Inside Calcium concentration
+	# Ca_in mmol = 0.0001mmol  # Inside Calcium concentration
 
     function alpha_m_init 1/ms = (0.4 * (V_m + 66.)) / (1. - exp(-(V_m + 66.)/5.))/ms
     function beta_m_init 1/ms = (0.4 * (-(V_m + 32.))) / (1. - exp((V_m + 32.)/5.))/ms
@@ -60,16 +60,17 @@ neuron hh_moto_5ht:
     function I_syn_exc pA = convolve(I_syn_ex, spikeExc)
     function I_syn_inh pA = convolve(I_syn_in, spikeInh)
 
-	function E_Ca mV = ((0.001 * R_const * T_current)/(2. * F_const))*log(Ca_out/Ca_in)
+	# function E_Ca mV = ((0.001 * R_const * T_current)/(2. * F_const))*log(Ca_out/Ca_in)
 
     function I_Na  pA = g_Na * Act_m * Act_m * Act_m * Act_h * ( V_m - E_Na )
     function I_K   pA  = g_K_rect * Inact_n * Inact_n * Inact_n * Inact_n * ( V_m - E_K )
     function I_L   pA = g_L * ( V_m - E_L )
 	function I_CaN pA = g_Ca_N *  Act_mc * Act_mc * Act_hc * (V_m - E_Ca)
 	function I_CaL pA = g_Ca_L * Act_p * (V_m - E_Ca)
-	function I_CaK pA = 0.6 * g_Ca_K * ((Ca_in * Ca_in)/(Ca_in * Ca_in + 0.014 * 0.014))*(V_m - E_K)
+	# function I_CaK pA = 0.6 * g_Ca_K * ((Ca_in * Ca_in)/(Ca_in * Ca_in + 0.014 * 0.014))*(V_m - E_K)
 
-    V_m' =( -( I_Na + I_K + I_L + I_CaN + I_CaL + I_CaK ) + currents + I_e + I_syn_inh + I_syn_exc ) / C_m
+    V_m' =( -( I_Na + I_K + I_L + I_CaN + I_CaL ) + currents + I_e + I_syn_inh + I_syn_exc ) / C_m
+    # V_m' =( -( I_Na + I_K + I_L + I_CaN + I_CaL + I_CaK ) + currents + I_e + I_syn_inh + I_syn_exc ) / C_m
 
 
     function n_inf real = 1. / (1. + exp(-(V_m + 38.)/15.))
@@ -96,7 +97,7 @@ neuron hh_moto_5ht:
     function hc_tau ms = 50.0ms
 	Act_hc' = (hc_inf - Act_hc) / hc_tau
 
-	Ca_in'= 0.01 * (-(I_CaN + I_CaL) - 4.*Ca_in)
+	# Ca_in'= 0.01 * (-(I_CaN + I_CaL) - 4.*Ca_in)
 
   end
 
@@ -110,12 +111,13 @@ neuron hh_moto_5ht:
     g_Ca_L nS = 10.0nS
     g_Ca_K nS = 30000.0nS
 
-	Ca_out mmol = 2.0mmol    # Outside Calcium concentration
+	# Ca_out mmol = 2.0mmol    # Outside Calcium concentration
 
 	C_m pF = 200.0pF         # Membrane capacitance
 	E_Na mV = 50.0mV
 	E_K mV = -80.0mV
 	E_L	mV = -70.0mV
+	E_Ca mV = 40.0mV
 
 	# Nernst equation constants
 	R_const (kg*m**2)/(s**2*K*mol) = 8.314472 * (kg*m**2)/(s**2*K*mol)
