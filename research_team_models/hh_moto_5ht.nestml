@@ -31,7 +31,7 @@ neuron hh_moto_5ht:
 
   initial_values:
     V_m mV = -65. mV # Membrane potential
-	Ca_in mmol = 0.0001mmol  # Inside Calcium concentration
+	Ca_in real = 0.0001  # Inside Calcium concentration
 
     function alpha_m_init 1/ms = (0.4 * (V_m + 66.)) / (1. - exp(-(V_m + 66.)/5.))/ms
     function beta_m_init 1/ms = (0.4 * (-(V_m + 32.))) / (1. - exp((V_m + 32.)/5.))/ms
@@ -60,7 +60,7 @@ neuron hh_moto_5ht:
     function I_syn_exc pA = convolve(I_syn_ex, spikeExc)
     function I_syn_inh pA = convolve(I_syn_in, spikeInh)
 
-	function E_Ca mV = ((0.001 * R_const * T_current)/(2. * F_const))*log(Ca_out/Ca_in)
+	function E_Ca mV = ((1000.0 * R_const * T_current)/(2. * F_const))*log(Ca_out/Ca_in)
 
     function I_Na  pA = g_Na * Act_m * Act_m * Act_m * Act_h * ( V_m - E_Na )
     function I_K   pA  = g_K_rect * Inact_n * Inact_n * Inact_n * Inact_n * ( V_m - E_K )
@@ -110,7 +110,7 @@ neuron hh_moto_5ht:
     g_Ca_L nS = 10.0nS
     g_Ca_K nS = 30000.0nS
 
-	Ca_out mmol = 2.0mmol    # Outside Calcium concentration
+	Ca_out real = 2.0    # Outside Calcium concentration
 
 	C_m pF = 200.0pF         # Membrane capacitance
 	E_Na mV = 50.0mV
@@ -118,9 +118,9 @@ neuron hh_moto_5ht:
 	E_L	mV = -70.0mV
 
 	# Nernst equation constants
-	R_const (kg*m**2)/(s**2*K*mol) = 8.314472 * (kg*m**2)/(s**2*K*mol)
-	F_const C/mol = 96485.34 * (C/mol)
-	T_current K = 309.15K # 36 Celcius
+	R_const real = 8.314472
+	F_const real = 96485.34
+	T_current real = 309.15 # 36 Celcius
 
     tau_syn_ex ms = 0.2ms  # Rise time of the excitatory synaptic alpha function i
     tau_syn_in ms = 2.0ms  # Rise time of the inhibitory synaptic alpha function
