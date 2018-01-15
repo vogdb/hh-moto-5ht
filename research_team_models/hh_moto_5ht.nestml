@@ -96,7 +96,7 @@ neuron hh_moto_5ht:
     function hc_tau ms = 50.0ms
 	Act_hc' = (hc_inf - Act_hc) / hc_tau
 
-	Ca_in'= 0.01 * (-(I_CaN + I_CaL) - 4.*Ca_in)
+	Ca_in'= 0.01 * (-1 * (0.00001) * (I_CaN + I_CaL) - 4.*Ca_in)
 
   end
 
