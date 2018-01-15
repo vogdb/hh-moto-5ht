@@ -16,11 +16,11 @@ NEURON {
 	SUFFIX motoneuron_5ht
 	NONSPECIFIC_CURRENT ina
 	NONSPECIFIC_CURRENT ikrect
-	: NONSPECIFIC_CURRENT ikca
+	NONSPECIFIC_CURRENT ikca
 	NONSPECIFIC_CURRENT il
 	NONSPECIFIC_CURRENT icaN
 	NONSPECIFIC_CURRENT icaL
-	RANGE  gnabar, gl, ena, ek, el, gkrect, gcaN, gcaL
+	RANGE  gnabar, gl, ena, ek, el, gkrect, gcaN, gcaL, gcak
 	RANGE p_inf, m_inf, h_inf, n_inf, mc_inf, hc_inf
 	RANGE tau_p, tau_m, tau_h, tau_n, tau_mc, tau_hc
 }
@@ -43,7 +43,6 @@ PARAMETER {
 	ena     = 50.0  (mV)
 	ek      = -80.0 (mV)
 	el	= -70.0 (mV)
-	Eca = 40.0 (mV)
 	dt              (ms)
 	v               (mV)
 	amA = 0.4
@@ -57,8 +56,7 @@ PARAMETER {
 }
 
 STATE {
-	 p m h n mc hc
-	 : p m h n cai mc hc
+	 p m h n cai mc hc
 }
 
 ASSIGNED {
@@ -67,8 +65,8 @@ ASSIGNED {
 	ikrect    (mA/cm2)
 	icaN  (mA/cm2)
 	icaL  (mA/cm2)
-	: ikca  (mA/cm2)
-	: Eca  (mV)
+	ikca  (mA/cm2)
+	Eca  (mV)
 	m_inf
 	mc_inf
 	h_inf
@@ -88,10 +86,10 @@ BREAKPOINT {
 	ina = gnabar * m*m*m*h*(v - ena)
 	ikrect   = gkrect *n*n*n*n*(v - ek)   :stesso ek di sotto
 	il   = gl * (v - el)
-	: Eca = ((1000*R*309.15)/(2*F))*log(ca0/cai)
+	Eca = ((1000*R*309.15)/(2*F))*log(ca0/cai)
 	icaN = gcaN*mc*mc*hc*(v-Eca)
 	icaL = gcaL*p*(v-Eca)
-	: ikca = 0.6*gcak*(cai*cai)/(cai*cai+0.014*0.014)*(v-ek)
+	ikca = 0.6*gcak*(cai*cai)/(cai*cai+0.014*0.014)*(v-ek)
 }
 
 DERIVATIVE states {  
@@ -103,7 +101,7 @@ DERIVATIVE states {
 	n' = (n_inf - n) / tau_n
 	mc' = (mc_inf - mc) / tau_mc
 	hc' = (hc_inf - hc) / tau_hc
-	: cai'= 0.01*(-(icaN+icaL) - 4*cai)
+	cai'= 0.01*(-(icaN+icaL) - 4*cai)
 }
 
 UNITSOFF
@@ -116,7 +114,7 @@ INITIAL {
 	n = n_inf
 	mc=mc_inf
 	hc=hc_inf
-	: cai = 0.0001
+	cai = 0.0001
 }
 
 PROCEDURE evaluate_fct(v(mV)) { LOCAL a,b,v2
