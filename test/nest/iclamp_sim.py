@@ -50,7 +50,7 @@ plot_parameter(multimeter, 'V_m', 'V_m')
 pylab.legend()
 
 pylab.subplot(4, 1, 2)
-pylab.ylabel('Ca Concentration')
+pylab.ylabel('Ca inside')
 pylab.yticks(numpy.arange(0.0001, 0.0010, 0.0002))
 plot_parameter(multimeter, 'Ca_in', 'Ca_in')
 pylab.legend()
