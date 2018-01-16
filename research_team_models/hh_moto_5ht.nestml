@@ -67,7 +67,7 @@ neuron hh_moto_5ht:
     function I_L   pA = g_L * ( V_m - E_L )
 	function I_Ca_N pA = g_Ca_N *  Act_mc * Act_mc * Act_hc * (V_m - E_Ca)
 	function I_Ca_L pA = g_Ca_L * Act_p * (V_m - E_Ca)
-	function I_K_Ca pA = 0.6 * g_K_Ca * ((Ca_in * Ca_in)/(Ca_in * Ca_in + 0.014 * 0.014))*(V_m - E_K)
+	function I_K_Ca pA = g_K_Ca_5ht * g_K_Ca * ((Ca_in * Ca_in)/(Ca_in * Ca_in + 0.014 * 0.014))*(V_m - E_K)
 
     V_m' =( -( I_Na + I_K + I_L + I_Ca_N + I_Ca_L + I_K_Ca ) + currents + I_e + I_syn_inh + I_syn_exc ) / C_m
 
@@ -109,6 +109,7 @@ neuron hh_moto_5ht:
     g_Ca_N nS = 5000.0nS
     g_Ca_L nS = 10.0nS
     g_K_Ca nS = 30000.0nS
+    g_K_Ca_5ht real = 0.6    # modulation of K-Ca channels by 5HT. Its value 1.0 == no modulation.
 
 	Ca_in_init mmol = 0.0001mmol  # Initial inside Calcium concentration
 	Ca_out mmol = 2.0mmol         # Outside Calcium concentration
