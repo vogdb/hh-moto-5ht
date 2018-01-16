@@ -31,7 +31,7 @@ neuron hh_moto_5ht:
 
   initial_values:
     V_m mV = -65. mV # Membrane potential
-	Ca_in real = 0.0001  # Inside Calcium concentration
+	Ca_in mmol = Ca_in_init  # Inside Calcium concentration
 
     function alpha_m_init 1/ms = (0.4 * (V_m + 66.)) / (1. - exp(-(V_m + 66.)/5.))/ms
     function beta_m_init 1/ms = (0.4 * (-(V_m + 32.))) / (1. - exp((V_m + 32.)/5.))/ms
@@ -110,7 +110,8 @@ neuron hh_moto_5ht:
     g_Ca_L nS = 10.0nS
     g_Ca_K nS = 30000.0nS
 
-	Ca_out real = 2.0    # Outside Calcium concentration
+	Ca_in_init mmol = 0.0001mmol  # Initial inside Calcium concentration
+	Ca_out mmol = 2.0mmol         # Outside Calcium concentration
 
 	C_m pF = 200.0pF         # Membrane capacitance
 	E_Na mV = 50.0mV
