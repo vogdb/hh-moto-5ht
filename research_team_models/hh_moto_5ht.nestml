@@ -65,11 +65,11 @@ neuron hh_moto_5ht:
     function I_Na  pA = g_Na * Act_m * Act_m * Act_m * Act_h * ( V_m - E_Na )
     function I_K   pA  = g_K_rect * Inact_n * Inact_n * Inact_n * Inact_n * ( V_m - E_K )
     function I_L   pA = g_L * ( V_m - E_L )
-	function I_CaN pA = g_Ca_N *  Act_mc * Act_mc * Act_hc * (V_m - E_Ca)
-	function I_CaL pA = g_Ca_L * Act_p * (V_m - E_Ca)
-	function I_CaK pA = 0.6 * g_Ca_K * ((Ca_in * Ca_in)/(Ca_in * Ca_in + 0.014 * 0.014))*(V_m - E_K)
+	function I_Ca_N pA = g_Ca_N *  Act_mc * Act_mc * Act_hc * (V_m - E_Ca)
+	function I_Ca_L pA = g_Ca_L * Act_p * (V_m - E_Ca)
+	function I_K_Ca pA = 0.6 * g_K_Ca * ((Ca_in * Ca_in)/(Ca_in * Ca_in + 0.014 * 0.014))*(V_m - E_K)
 
-    V_m' =( -( I_Na + I_K + I_L + I_CaN + I_CaL + I_CaK ) + currents + I_e + I_syn_inh + I_syn_exc ) / C_m
+    V_m' =( -( I_Na + I_K + I_L + I_Ca_N + I_Ca_L + I_K_Ca ) + currents + I_e + I_syn_inh + I_syn_exc ) / C_m
 
 
     function n_inf real = 1. / (1. + exp(-(V_m + 38.)/15.))
@@ -96,7 +96,7 @@ neuron hh_moto_5ht:
     function hc_tau ms = 50.0ms
 	Act_hc' = (hc_inf - Act_hc) / hc_tau
 
-	Ca_in'= 0.01 * (-1 * (0.00001) * (I_CaN + I_CaL) - 4.*Ca_in)
+	Ca_in'= 0.01 * (-1 * (0.00001) * (I_Ca_N + I_Ca_L) - 4.*Ca_in)
 
   end
 
@@ -108,7 +108,7 @@ neuron hh_moto_5ht:
     g_K_rect nS = 30000.0nS  # Delayed Rectifier Potassium peak conductance
     g_Ca_N nS = 5000.0nS
     g_Ca_L nS = 10.0nS
-    g_Ca_K nS = 30000.0nS
+    g_K_Ca nS = 30000.0nS
 
 	Ca_in_init mmol = 0.0001mmol  # Initial inside Calcium concentration
 	Ca_out mmol = 2.0mmol         # Outside Calcium concentration
